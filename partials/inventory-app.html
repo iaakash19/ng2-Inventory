@@ -1,15 +1,28 @@
+
+
+
+<!-- Notes
+
 <div class="inventory-app">
 
 <products-list [productList]="products"> </products-list>
 
+
+ <products-list [productsList]="products"></products-list>
+
 </div>
-
-
-<!-- Notes
 
 1. We Pass data to child components via Inputs
 2. [Inputs] will be declared on the components directive
 3. "Right Side" will be defined in the parent Class.
 
 -->
+
+
+<product-list
+[productList]="products"
+>
+
+</product-list>
+
 

@@ -1,9 +1,7 @@
 <div class="ui items">
-   <product-row 
-     *ngFor="#myProduct of productList" 
-    	[product]="myProduct" 
-   </product-row>
+	<product-row
+		*ngFor="#item of productList"
+		[newProduct]="item"	
+	>
+	</product-row>
 </div>
-
-<!--productList came as an input to product-list component	-->
-

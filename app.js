@@ -9,7 +9,7 @@ System.register(['angular2/core', 'angular2/platform/browser'], function(exports
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, browser_1;
-    var Product, ProductImage, ProductDepartment, PriceDisplay, ProductRow, ProductsList, InventoryApp;
+    var Product, PriceDisplay, ProductDepartment, ProductImage, ProductRow, ProductList, InventoryApp;
     return {
         setters:[
             function (core_1_1) {
@@ -28,57 +28,16 @@ System.register(['angular2/core', 'angular2/platform/browser'], function(exports
                         - productdept
                         - pricedisplay
              */
-            /**
-             * Provides a `Product` object
-             */
             Product = (function () {
-                function Product(sku, name, imageUrl, department, price) {
-                    this.sku = sku;
-                    this.name = name;
-                    this.imageUrl = imageUrl;
-                    this.department = department;
-                    this.price = price;
+                function Product(product_name, product_imageurl, product_sku, product_dept, product_price) {
+                    this.name = product_name;
+                    this.imageUrl = product_imageurl;
+                    this.sku = product_sku;
+                    this.department = product_dept;
+                    this.price = product_price;
                 }
                 return Product;
             })();
-            /**
-             * @ProductImage: A component to show a single Product's image
-             */
-            ProductImage = (function () {
-                function ProductImage() {
-                }
-                ProductImage = __decorate([
-                    core_1.Component({
-                        selector: 'product-image',
-                        host: { class: 'ui small image' },
-                        inputs: ['product'],
-                        template: "\n  <img class=\"product-image\" [src]=\"product.imageUrl\">\n  "
-                    }), 
-                    __metadata('design:paramtypes', [])
-                ], ProductImage);
-                return ProductImage;
-            })();
-            /**
-             * @ProductDepartment: A component to show the breadcrumbs to a
-             * Product's department
-             */
-            ProductDepartment = (function () {
-                function ProductDepartment() {
-                }
-                ProductDepartment = __decorate([
-                    core_1.Component({
-                        selector: 'product-department',
-                        inputs: ['product'],
-                        template: "\n  <div class=\"product-department\">\n    <span *ngFor=\"#name of product.department; #i=index\">\n      <a href=\"#\">{{ name }}</a>\n      <span>{{i < (product.department.length-1) ? '>' : ''}}</span>\n    </span>\n  </div>\n  "
-                    }), 
-                    __metadata('design:paramtypes', [])
-                ], ProductDepartment);
-                return ProductDepartment;
-            })();
-            /**
-             * @PriceDisplay: A component to show the price of a
-             * Product
-             */
             PriceDisplay = (function () {
                 function PriceDisplay() {
                 }
@@ -86,67 +45,82 @@ System.register(['angular2/core', 'angular2/platform/browser'], function(exports
                     core_1.Component({
                         selector: 'price-display',
                         inputs: ['price'],
-                        template: "\n  <div class=\"price-display\">${{ price }}</div>\n  "
+                        template: "\n    <div class=\"price-display\">${{ price }}</div>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], PriceDisplay);
                 return PriceDisplay;
             })();
-            /**
-             * @ProductRow: A component for the view of single Product
-             */
+            ProductDepartment = (function () {
+                function ProductDepartment() {
+                }
+                ProductDepartment = __decorate([
+                    core_1.Component({
+                        selector: 'product-department',
+                        inputs: ['product'],
+                        template: "\n    <div class=\"product-department\">\n      <span *ngFor=\"#name of product.department\">\n        <a href=\"\">{{name}}</a>\n      </span>\n    </div>"
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], ProductDepartment);
+                return ProductDepartment;
+            })();
+            ProductImage = (function () {
+                function ProductImage() {
+                }
+                ProductImage = __decorate([
+                    core_1.Component({
+                        selector: 'product-image',
+                        host: {
+                            class: 'ui small image'
+                        },
+                        inputs: ['product'],
+                        template: "\n  <img class=\"product-image\" [src]=\"product.imageUrl\" />\n  "
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], ProductImage);
+                return ProductImage;
+            })();
             ProductRow = (function () {
                 function ProductRow() {
                 }
                 ProductRow = __decorate([
                     core_1.Component({
                         selector: 'product-row',
-                        inputs: ['product'],
+                        inputs: ['newProduct'],
                         host: { 'class': 'item' },
                         templateUrl: 'partials/product-row.html',
-                        directives: [ProductImage, ProductDepartment, PriceDisplay],
+                        directives: [ProductImage, ProductDepartment, PriceDisplay]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], ProductRow);
                 return ProductRow;
             })();
-            /**
-             * @ProductsList: A component for rendering all ProductRows and
-             * storing the currently selected Product
-             */
-            ProductsList = (function () {
-                function ProductsList() {
+            ProductList = (function () {
+                function ProductList() {
                 }
-                ProductsList = __decorate([
+                ProductList = __decorate([
                     core_1.Component({
-                        selector: 'products-list',
+                        selector: 'product-list',
                         inputs: ['productList'],
                         templateUrl: 'partials/product-list.html',
                         directives: [ProductRow]
                     }), 
                     __metadata('design:paramtypes', [])
-                ], ProductsList);
-                return ProductsList;
+                ], ProductList);
+                return ProductList;
             })();
-            /**
-             * @InventoryApp: the top-level component for our application
-             */
             InventoryApp = (function () {
                 function InventoryApp() {
                     this.products = [
-                        new Product('MYSHOES', 'Black Running Shoes', '/resources/images/products/black-shoes.jpg', ['Men', 'Shoes', 'Running Shoes'], 109.99),
-                        new Product('NEATOJACKET', 'Blue Jacket', '/resources/images/products/blue-jacket.jpg', ['Women', 'Apparel', 'Jackets & Vests'], 238.99),
-                        new Product('NICEHAT', 'A Nice Black Hat', '/resources/images/products/black-hat.jpg', ['Men', 'Accessories', 'Hats'], 29.99)
+                        new Product('Black Running Shoes', '/resources/images/products/black-shoes.jpg', 'BRSD45262', ['Men', 'Shoes', 'Running Shoes'], 45),
+                        new Product('Blue Jacket Addidas', '/resources/images/products/blue-jacket.jpg', 'AD3435521', ['Women', 'Apparel', 'Jackets & Vests'], 90)
                     ];
                 }
-                InventoryApp.prototype.productWasSelected = function (product) {
-                    console.log('Details of the product Clicked', product);
-                };
                 InventoryApp = __decorate([
                     core_1.Component({
                         selector: 'inventory-app',
                         templateUrl: 'partials/inventory-app.html',
-                        directives: [ProductsList]
+                        directives: [ProductList]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], InventoryApp);
