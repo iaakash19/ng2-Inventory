@@ -29,7 +29,7 @@ System.register(['angular2/core', 'angular2/platform/browser'], function(exports
                         - pricedisplay
              */
             Product = (function () {
-                function Product(product_name, product_imageurl, product_sku, product_dept, product_price) {
+                function Product(product_sku, product_name, product_imageurl, product_dept, product_price) {
                     this.name = product_name;
                     this.imageUrl = product_imageurl;
                     this.sku = product_sku;
@@ -97,11 +97,23 @@ System.register(['angular2/core', 'angular2/platform/browser'], function(exports
             })();
             ProductList = (function () {
                 function ProductList() {
+                    this.selectProduct = new core_1.EventEmitter();
                 }
+                ProductList.prototype.clicked = function (product) {
+                    this.currentProduct = product;
+                    this.selectProduct.emit(product);
+                };
+                ProductList.prototype.isSelected = function (product) {
+                    if (!product || !this.currentProduct) {
+                        return false;
+                    }
+                    return product.sku === this.currentProduct.sku;
+                };
                 ProductList = __decorate([
                     core_1.Component({
                         selector: 'product-list',
                         inputs: ['productList'],
+                        outputs: ['selectProduct'],
                         templateUrl: 'partials/product-list.html',
                         directives: [ProductRow]
                     }), 
@@ -112,10 +124,14 @@ System.register(['angular2/core', 'angular2/platform/browser'], function(exports
             InventoryApp = (function () {
                 function InventoryApp() {
                     this.products = [
-                        new Product('Black Running Shoes', '/resources/images/products/black-shoes.jpg', 'BRSD45262', ['Men', 'Shoes', 'Running Shoes'], 45),
-                        new Product('Blue Jacket Addidas', '/resources/images/products/blue-jacket.jpg', 'AD3435521', ['Women', 'Apparel', 'Jackets & Vests'], 90)
+                        new Product('MYSHOES', 'Black Running Shoes', '/resources/images/products/black-shoes.jpg', ['Men', 'Shoes', 'Running Shoes'], 109.99),
+                        new Product('NEATOJACKET', 'Blue Jacket', '/resources/images/products/blue-jacket.jpg', ['Women', 'Apparel', 'Jackets & Vests'], 238.99),
+                        new Product('NICEHAT', 'A Nice Black Hat', '/resources/images/products/black-hat.jpg', ['Men', 'Accessories', 'Hats'], 29.99)
                     ];
                 }
+                InventoryApp.prototype.onProductSelected = function (product) {
+                    console.log('Product clicked:', product);
+                };
                 InventoryApp = __decorate([
                     core_1.Component({
                         selector: 'inventory-app',

@@ -44,3 +44,14 @@ ul.ui.list li:before {
   clear: both;
   width: 100%;
 }
+
+
+.ui.items>.item {
+  align-items: center;
+}
+
+.ui.items>.item.selected {
+  border: 1px solid rgba(163, 51, 200, 0.41);
+  border-radius: 5px;
+}
+

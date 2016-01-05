@@ -1,6 +1,6 @@
 import {
-Component,
-EventEmitter
+  Component,
+  EventEmitter
 } from 'angular2/core';
 
 import {bootstrap} from 'angular2/platform/browser';
@@ -22,7 +22,7 @@ class Product {
   public department: string[];
   public price: number;
 
-  constructor(product_name: string, product_imageurl: string, product_sku: string, product_dept: string[], product_price: number  ) {
+  constructor(product_sku: string, product_name: string, product_imageurl: string, , product_dept: string[], product_price: number) {
      this.name = product_name;
      this.imageUrl = product_imageurl;
      this.sku = product_sku;
@@ -85,11 +85,35 @@ class ProductRow{
 @Component({ 
   selector: 'product-list',
   inputs: ['productList'],
+  outputs: ['selectProduct'],
   templateUrl: 'partials/product-list.html',
   directives: [ProductRow]
 })
 class ProductList {
-  productList: Product;
+  
+  productList: Product[];
+
+  selectProduct: EventEmitter<Product>;
+
+  currentProduct: Product;
+
+  constructor() {
+    this.selectProduct = new EventEmitter();
+  }
+
+  clicked(product: Product): void {
+    this.currentProduct = product;
+    this.selectProduct.emit(product);
+  }
+
+  isSelected(product: Product): boolean {
+    if (!product || !this.currentProduct) {
+      return false;
+    }
+    return product.sku === this.currentProduct.sku;
+  }
+
+
 }
 
 @Component({
@@ -102,10 +126,29 @@ class InventoryApp {
   products: Product[];
 
   constructor(){
+
     this.products = [
-      new Product('Black Running Shoes', '/resources/images/products/black-shoes.jpg', 'BRSD45262', ['Men', 'Shoes', 'Running Shoes'], 45),
-      new Product('Blue Jacket Addidas', '/resources/images/products/blue-jacket.jpg', 'AD3435521', ['Women', 'Apparel', 'Jackets & Vests'], 90)
+      new Product(
+        'MYSHOES', 'Black Running Shoes',
+        '/resources/images/products/black-shoes.jpg',
+        ['Men', 'Shoes', 'Running Shoes'],
+        109.99),
+      new Product(
+        'NEATOJACKET', 'Blue Jacket',
+        '/resources/images/products/blue-jacket.jpg',
+        ['Women', 'Apparel', 'Jackets & Vests'],
+        238.99),
+      new Product(
+        'NICEHAT', 'A Nice Black Hat',
+        '/resources/images/products/black-hat.jpg',
+        ['Men', 'Accessories', 'Hats'],
+        29.99)
     ]
   }
-}
+
+  onProductSelected(product: Product): void {
+    console.log('Product clicked:', product);
+  }
+
+ }
 bootstrap(InventoryApp);
